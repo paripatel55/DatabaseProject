@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <header> 
+            <nav> 
+                <ul class="navLinks"> 
+                    <li> <a href="home.html">Home</a></li>
+                    <li><a href="add.html">Add</a></li>  
+                    <li><a href="update.html">Update</a></li>  
+                    <li><a href="delete.html">Delete</a></li>  
+
+                </ul>
+            </nav>
+        </header>
+        <script>
+            window.addEventListener('scroll', () => {
+              const element = document.querySelector('.animate-me');
+              const position = element.getBoundingClientRect();
+        
+              if (position.top < window.innerHeight) {
+                element.classList.add('fade-in');
+              }
+            });
+        </script>
+
+        <div class="title"> 
+            <h1><strong> New York City Jail Database </strong></h1>
+        </div>
+
+        <!-- main part -->
+        <div class="button-container"> 
+            <div class="button-row">
+                <button>Criminals</button>
+                <button>Crimes</button>
+                <button>Sentences</button>
+            </div>
+            <div class="button-row2">
+                <button>Probation Officers</button>
+                <button>Crime Charges</button>
+                <button>Officers</button>
+            </div>
+            <div class="button-row3">
+                <button>Appeals</button>
+            </div>
+
+        </div>
+    </body>
+</html>
