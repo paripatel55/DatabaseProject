@@ -6,15 +6,16 @@
     <title>Criminal_Search</title>
 </head>
 <body>
-    <form action="" method="post" onchange="updateMaxLength()">
+    <form action="{{ url_for('Search_Pressed') }}" method="post" onchange="updateMaxLength()">
         <label for="first_name">First Name:</label>
         <input type="text" id="first_name" name="first_name" maxlength="10"><br><br>
     
         <label for="last_name" maxlength="15">Last Name:</label>
-        <input type="text" id="last_name" name="officer_last_name"><br><br>
+        <input type="text" id="last_name" name="last_name"><br><br>
     
         <label for="items">Filter Attribute</label>
         <select id="items" name="items">
+            <option value="None">None</option>
             <option value="Street" maxlength="30">Street</option>
             <option value="City" maxlength="20">City</option>
             <option value="Zip" maxlength="5">Zip</option>
@@ -27,11 +28,13 @@
         <input type="text" id="attr_value" name="attr_value"><br><br>
     
         <input type="submit" value="Search">
-    
     </form>
     <input type="submit" value="Add Criminal">
     <input type="submit" value="Edit Criminal">
     <input type="submit" value="Delete Criminal">
+    
+    <div>{{ extra_rows }}</div>
+
     <script>
         function updateMaxLength() {
             var selectElement = document.getElementById("items");
