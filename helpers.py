@@ -23,7 +23,7 @@ def return_table(df):
     df_arr = df.to_numpy()
     table+=f"<tr>"
     for i in df.columns:
-        table+=f"<td>{i}</td>"
+        table+=f"<th>{i}</th>"
     table+=f"</tr>"
 
     for i in df_arr:

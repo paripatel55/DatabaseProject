@@ -75,41 +75,58 @@ def home(user):
 
     return "hi"
 
-@app.route('/Search_Criminal')
-def Search_Criminal(extra_rows=""):
-    return render_template('Officer/Search_Criminal.html', extra_rows=Markup(extra_rows))
+@app.route('/Search_Criminal',  methods = ["GET","POST"])
+def Search_Criminal(message=""):
+    if (request.method == "GET"):
+        return render_template('Officer/Search_Criminal.html', extra_rows=Markup(""))
+    elif (request.method == "POST"):
+        for i in request.form.keys():
+            print(i, request.form.get(i))
+        first_name = request.form.get("first_name")
+        last_name = request.form.get("last_name")
+        filter_attr = request.form.get("items")
+        attr_value = request.form.get("attr_value")
+        if (filter_attr != "None"):
+            search_statment = f"SELECT * from criminal WHERE first = '{first_name}' AND last = '{last_name}' AND {filter_attr}='{attr_value}'"
+        else:
+            search_statment = f"SELECT * from criminal WHERE first = '{first_name}' AND last = '{last_name}'"
+        
+        df_output = runstatement(search_statment, mysql)
+        
+        return render_template('Officer/Search_Criminal.html', extra_rows=Markup(return_table(df_output)))
 
-@app.route('/Search_Pressed', methods = ["POST"])
-def Search_Pressed():
-    first_name = request.form.get("first_name")
-    last_name = request.form.get("last_name")
-    filter_attr = request.form.get("items")
-    attr_value = request.form.get("attr_value")
-    if (filter_attr != "None"):
-        search_statment = f"SELECT * from criminal WHERE first = '{first_name}' AND last = '{last_name}' AND {filter_attr}='{attr_value}'"
-    else:
-        search_statment = f"SELECT * from criminal WHERE first = '{first_name}' AND last = '{last_name}'"
-    
-    df_output = runstatement(search_statment, mysql)
-    if (df_output.empty):
-        redirect("/Search_Criminal")
-        return Search_Criminal(return_table(df_output))
-    else:
-        redirect("/Search_Criminal")
-        return Search_Criminal(return_table(df_output))
 
-@app.route('/Search_Alias', )
+
+@app.route('/Search_Alias')
 def Search_Alias():
     return render_template('Officer/Search_Alias.html')
+
 
 @app.route('/Search_Prob_Officer')
 def Search_Prob_Officer():
     return render_template('Officer/Search_Prob_Officer.html')
 
+@app.route('/Search_Sentences', methods = ["GET","POST"])
+def Search_Sentences():
+    if (request.method == "GET"):
+        return render_template('Officer/Search_Sentences.html')
+    elif (request.method == "POST"):
+        start_date = request.form.get("Start_Date")
+        end_date = request.form.get("End_date")
+        filter_attr = request.form.get("items")
+        attr_value = request.form.get("attr_value")
+        if (filter_attr != "None"):
+            search_statment = f"SELECT * from sentences WHERE Start_date <= '{start_date}' AND End_date >= '{end_date}' AND {filter_attr}='{attr_value}'"
+        else:
+            search_statment = f"SELECT * from sentences WHERE Start_date <= '{start_date}' AND End_date >= '{end_date}'"
 
-# app.add_url_rule("/login_pressed", view_func=login_pressed)
-# app.add_url_rule("/signup_pressed", view_func=signup_pressed)
+        df_output = runstatement(search_statment, mysql)
+        return render_template('Officer/Search_Sentences.html', extra_rows=Markup(return_table(df_output)))
 
+# send_file(csv_data,
+#                      mimetype='text/csv',
+#                      attachment_filename='sample.csv',
+#                      as_attachment=True)
 
 if __name__ == '__main__':
     app.run(debug=True)
