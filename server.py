@@ -24,11 +24,12 @@ def login_pressed():
     password = request.form.get("password")  
 
     # sql statement to check if user and password match up
-    authenticate_login = f"SELECT user_type from users WHERE username='{username}' AND password='{simple_hash(password)}'"
+    authenticate_login = f"SELECT user_type, id from users WHERE username='{username}' AND password='{simple_hash(password)}'"
     df_output = runstatement(authenticate_login, mysql) # get output as dataframe
     if (not df_output.empty): # check if nothing was returned(authentication failed)
         user = df_output.loc[0][0] # get the user type
-        return redirect(f"/home_{user}") # redirect to home page for that user type
+        user_id = df_output.loc[0][1]
+        return redirect(f"/home_{user}_{user_id}") # redirect to home page for that user type
     return login_page() # otherwise if authentication failed, stay at login page
 
 @app.route("/signup")
@@ -42,18 +43,17 @@ def signup_pressed():
     username = request.form.get("username")
     password = request.form.get("password")   
     criminal_select = request.form.get("criminal_select")
-    user_type = "Criminal" if criminal_select else "Officer"
+    user_type = "Criminal" if criminal_select is None else "Officer"
     id = request.form.get("ID")
-
+    print((user_type))
     # based on which type of user they are our search will change
-    token = "criminal_id" if criminal_select else "officer_id"
-    table = "criminal" if criminal_select else "officer"
+    token = "criminal_id" if criminal_select is None else "officer_id"
+    table = "criminal" if criminal_select is None else "officer"
 
     # statement to check if they are already in the database
     check_existance_in_database = f"SELECT {token} from {table} WHERE {token}={id}"
     # statement to check if they already have an accoount
     check_existance_in_user_table = f"SELECT id from users WHERE id={id}"
-
     if (not runstatement(check_existance_in_database, mysql).empty 
         and runstatement(check_existance_in_user_table, mysql).empty):
         # if they are in the db and are not already registered, add them to the user table
@@ -65,18 +65,30 @@ def signup_pressed():
     # if everything works out fine, redirect to login page
     return redirect("/")
 
-@app.route('/home_<user>')
-def home(user):
+@app.route('/home_<user>_<user_id>', methods = ["GET","POST"])
+def home(user, user_id):
     if (user == "Officer"):
         return render_template("Officer/officer_home.html") # render officer home page
         
     elif (user == "Criminal"):
-        ... # reder criminal home page
-
-    return "hi"
+        if (request.method == "POST"):
+            print(request.form.get("Amount"))
+            amount = request.form.get("Amount")
+            if (int(amount) < 0):
+                return render_template("Criminal/criminal_home.html", message = "lmao what?")
+            get_crime_charge_id = f"Select charge_id from crime_charges WHERE crime_id IN (SELECT crime.crime_id from crime, criminal WHERE crime.Criminal_ID = {user_id})"
+            crime_charge_id = runstatement(get_crime_charge_id, mysql).loc[0][0]
+            pay_fine_statement = f"Select payFine({amount}, {crime_charge_id})"
+            df_output = runstatement(pay_fine_statement, mysql)
+            amount_left = int(df_output.loc[0][0])
+            message = f"Amount Left: {amount_left}"
+            if (amount_left < 0):
+                message = f"Amount returned: {amount_left}"
+            return render_template("Criminal/criminal_home.html", message = message)
+        return render_template("Criminal/criminal_home.html", message="") # reder criminal home page
 
 @app.route('/Search_Criminal',  methods = ["GET","POST"])
-def Search_Criminal(message=""):
+def Search_Criminal():
     if (request.method == "GET"):
         return render_template('Officer/Search_Criminal.html', extra_rows=Markup(""))
     elif (request.method == "POST"):
@@ -122,8 +134,9 @@ def Search_Sentences():
 def Delete_Criminal():
     if (request.method == 'POST'):
         id = request.form.get("Criminal_ID")
-        statement = f"DELETE from alias, appeals, crime, crime_charges, crime_code, crime_officers, criminal, officer, prob_officer, sentences, users WHERE Criminal_ID = {id}"
-        where = "WHERE alias.Criminal_ID = criminal.Criminal_ID "
+        statement = f"DELETE from alias, appeals, crime, crime_charges, crime_code, crime_officers, criminal, officer, prob_officer, sentences WHERE criminal.Criminal_ID = {id} "
+        
+        where = "AND alias.Criminal_ID = criminal.Criminal_ID "
         where += "AND appeals.Crime_ID = Crime.Crime_ID "
         where += "AND crime.Criminal_ID = criminal.Criminal_ID "
         where += "AND crime_charges.Crime_ID = Crime.Crime_ID "
@@ -132,9 +145,9 @@ def Delete_Criminal():
         where += "AND crime_officers.Officer_ID = officer.Officer_ID "
         where += "AND criminal.Criminal_ID = sentences.CriminalID "
         where += "AND prob_officer.Prob_ID = sentences.Prob_ID "
-        s = "SELECT * FROM alias, appeals, crime, crime_charges, crime_code, crime_officers, criminal, officer, prob_officer, sentences, users "
-        s += where
-
+        statement += where
+        print(statement)
+        # print(runstatement(statement, mysql))
         
     return render_template("Delete_Criminal.html")
 
