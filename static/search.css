@@ -71,3 +71,8 @@ td{
     padding: 10px 0 10px 0;
 
 }
+
+.btns{
+    display: flex;
+    gap:10px
+}

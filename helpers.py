@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+from flask import request
 def runstatement(statement, mysql):
     cursor = mysql.connection.cursor()
     cursor.execute(statement)
@@ -33,3 +34,19 @@ def return_table(df):
         table+=f"</tr>"
     table += "</table>"
     return table
+
+def make_search_statement(table):
+    search_statment = f"Select * from {table} WHERE "
+    for i in request.form.keys():
+        if (i != "items"):
+            search_statment+=str(i)
+            search_statment+=f" = '{request.form.get(i)}' AND "
+        else:
+            search_statment+="1=1"
+            break
+    filter_attr = request.form.get("items")
+    attr_value = request.form.get("attr_value")
+    if (filter_attr != "None"):
+        search_statment+= f" AND {filter_attr}='{attr_value}'"
+    
+    return search_statment

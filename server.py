@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect
 from flask_mysqldb import MySQL
-from helpers import runstatement, simple_hash, return_table
+from helpers import runstatement, simple_hash, return_table, make_search_statement
 from markupsafe import Markup
 
 app = Flask(__name__)
@@ -80,17 +80,7 @@ def Search_Criminal(message=""):
     if (request.method == "GET"):
         return render_template('Officer/Search_Criminal.html', extra_rows=Markup(""))
     elif (request.method == "POST"):
-        for i in request.form.keys():
-            print(i, request.form.get(i))
-        first_name = request.form.get("first_name")
-        last_name = request.form.get("last_name")
-        filter_attr = request.form.get("items")
-        attr_value = request.form.get("attr_value")
-        if (filter_attr != "None"):
-            search_statment = f"SELECT * from criminal WHERE first = '{first_name}' AND last = '{last_name}' AND {filter_attr}='{attr_value}'"
-        else:
-            search_statment = f"SELECT * from criminal WHERE first = '{first_name}' AND last = '{last_name}'"
-        
+        search_statment = make_search_statement("criminal")
         df_output = runstatement(search_statment, mysql)
         
         return render_template('Officer/Search_Criminal.html', extra_rows=Markup(return_table(df_output)))
@@ -127,6 +117,27 @@ def Search_Sentences():
 #                      mimetype='text/csv',
 #                      attachment_filename='sample.csv',
 #                      as_attachment=True)
+
+@app.route('/Delete_Criminal', methods = ["GET","POST"])
+def Delete_Criminal():
+    if (request.method == 'POST'):
+        id = request.form.get("Criminal_ID")
+        statement = f"DELETE from alias, appeals, crime, crime_charges, crime_code, crime_officers, criminal, officer, prob_officer, sentences, users WHERE Criminal_ID = {id}"
+        where = "WHERE alias.Criminal_ID = criminal.Criminal_ID "
+        where += "AND appeals.Crime_ID = Crime.Crime_ID "
+        where += "AND crime.Criminal_ID = criminal.Criminal_ID "
+        where += "AND crime_charges.Crime_ID = Crime.Crime_ID "
+        where += "AND crime_charges.crime_code = crime_code.Crime_code "
+        where += "AND crime_officers.Crime_ID = crime.Crime_ID "
+        where += "AND crime_officers.Officer_ID = officer.Officer_ID "
+        where += "AND criminal.Criminal_ID = sentences.CriminalID "
+        where += "AND prob_officer.Prob_ID = sentences.Prob_ID "
+        s = "SELECT * FROM alias, appeals, crime, crime_charges, crime_code, crime_officers, criminal, officer, prob_officer, sentences, users "
+        s += where
+
+        
+    return render_template("Delete_Criminal.html")
+
 
 if __name__ == '__main__':
     app.run(debug=True)
