@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Criminal</title>
+    <link rel="stylesheet" href="format.css">
+</head>
+<body> 
+    <div class = "title_wrapper"> <strong> New York City Jail Database </strong> <img src="police.png" alt="hi"></div>
+    <div class="title"> 
+        <h1>Add New Criminal</h1>
+    </div>
+    <form action="{{ url_for('addCriminal') }}" method="post">
+    <div class="form-container">
+        <div class="form-group">
+        <label for="first_name">First Name:</label>
+        <input type="text" id="first_name" name="first_name">
+        </div>
+        <div class="form-group">
+            <label for="last_name">Last Name:</label>
+            <input type="text" id="last_name" name="last_name">
+        </div>
+        <div class="form-group">
+            <label for="alias">Alias:</label>
+            <input type="text" id="alias" name="alias">
+        </div>
+        <div class="form-group">
+            <label for="street">Street:</label>
+            <input type="text" id="street" name="street">
+        </div>
+        <div class="form-group">
+            <label for="city">City:</label>
+            <input type="text" id="city" name="city">
+        </div>
+        <div class="form-group">
+            <label for="state">State:</label>
+            <input type="text" id="state" name="state">
+        </div>
+        <div class="form-group">
+            <label for="zipcode">Zip Code:</label>
+            <input type="text" id="zipcode" name="zipcode">
+        </div>
+        <div class="form-group">
+            <label for="phone">Phone:</label>
+            <input type="text" id="phone" name="phone">
+        </div>
+        <div class="form-group">
+            <label for="C_ID">Criminal ID:</label>
+            <input type="text" id="C_ID" name="C_ID">
+        </div>
+        <div class="form-group">
+        <label for="offender_status">Violent Offender Status:</label>
+        <select id="offender_status" name="offender_status">
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+        </select>
+        </div>
+        <div class="form-group">
+            <label for="probation_status">Probation Status:</label>
+            <select id="probation_status" name="probation_status">
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+            </select>
+        </div>
+    </div>
+    <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
+
+    
