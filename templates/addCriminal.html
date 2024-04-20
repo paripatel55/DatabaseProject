@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='format.css') }}">
 </head>
 <body> 
-    <div class = "title_wrapper"> <strong> New York City Jail Database </strong> <img src="police.png" alt="hi"></div>
+    <div class = "title_wrapper"> <strong> New York City Jail Database </strong> <img src="{{ url_for('static', filename='police.png') }}" alt="hi"></div>
     <div class="title"> 
         <h1>Add New Criminal</h1>
     </div>
@@ -50,18 +50,12 @@
             <input type="text" id="C_ID" name="C_ID" maxlength="6">
         </div>
         <div class="form-group">
-        <label for="offender_status">Violent Offender Status:</label>
-        <select id="offender_status" name="offender_status">
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-        </select>
+            <label for="offender_status">Violent Offender Status (Y/N):</label>
+            <input type="text" id="offender_status" name="offender_status" maxlength="1">
         </div>
         <div class="form-group">
-            <label for="probation_status">Probation Status:</label>
-            <select id="probation_status" name="probation_status">
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-            </select>
+            <label for="probation_status">Probation Status (Y/N):</label>
+            <input type="text" id="probation_status" name="probation_status" maxlength="1">
         </div>
     </div>
     <button type="submit">Submit</button>
