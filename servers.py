@@ -90,10 +90,10 @@ def addCriminal():
             if not (criminal_exists(C_ID)):
                 # Construct SQL INSERT statement using an f-string
                 sql = f"INSERT INTO Criminal (Criminal_ID, Last, First, Street, City, State, Zip, Phone, V_status, P_status) VALUES ('{C_ID}', '{last_name}', '{first_name}', '{street}', '{city}', '{state}', '{zipcode}', '{phone}', '{offender_status}', '{probation_status}')"
-                print("Executing SQL statement:")
-                print(sql)
+                #print("Executing SQL statement:")
+                #print(sql)
                 runstatement(sql, fetch_results=False)
-                print("Criminal added successfully.")
+                #print("Criminal added successfully.")
                 # display all the criminals including the one just added 
                 return redirect('/criminal')
             else: 
