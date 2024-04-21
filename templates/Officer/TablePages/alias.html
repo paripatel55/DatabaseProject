@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appeal Data</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='format.css') }}">
+</head>
+<body> 
+    <div class="title_wrapper"> <strong> New York City Jail Database </strong> <img src="{{ url_for('static', filename='police.png') }}" alt="hi"></div>
+    <div class="title"> 
+        <h1>Appeal Data</h1>   
+    </div>
+
+    <button>
+        <a href="{{ url_for('Search_Alias') }}" class="btn">Search</a>
+
+    </button>
+    <button>
+        <a href="{{ url_for('Update_Alias') }}" class="btn">Update</a>
+
+    </button>
+    <button>
+        <a href="{{ url_for('home') }}" class="btn">Home</a>
+
+    </button>
+        {{table}}
+</body>
+</html>

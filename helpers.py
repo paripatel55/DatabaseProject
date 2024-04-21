@@ -13,6 +13,16 @@ def runstatement(statement, mysql):
     cursor.close()
     return df
 
+def exec(statement, cursor):
+    cursor.execute(statement)
+    results = cursor.fetchall()
+    df = ""
+    if (cursor.description):
+        column_names = [desc[0] for desc in cursor.description]
+        df = pd.DataFrame(results, columns=column_names)
+    return df
+
+
 def simple_hash(s):
     hash_value = 0
     for char in s:
