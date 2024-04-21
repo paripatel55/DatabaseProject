@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update_Criminal</title>
+</head>
+<h1> New York City Jail Database <h1></h1>
+<body>
+    <form action="{{ url_for('Update_Criminal_Pressed') }}" method="post" onchange="updateMaxLength()">
+        <label for="Criminal_ID">Criminal ID:</label>
+        <input type="text" id="Criminal_ID" name="Criminal_ID" maxlength="10"><br><br>
+        <label for="attr_selection">Select Attribute:</label>
+        <select id="attr_selection" name="attr_selection">
+            <option value="First" maxlength="30">First Name</option>
+            <option value="Last" maxlength="30">Last Name</option>
+            <option value="Street" maxlength="30">Street</option>
+            <option value="City" maxlength="20">City</option>
+            <option value="Zip" maxlength="5">Zip</option>
+            <option value="Phone" maxlength="10">Phone</option>
+            <option value="V_status" maxlength="1">V_status</option>
+            <option value="P_status" maxlength="1">P_status</option>
+        </select>
+
+        <label for="attr_value">Attribute Value</label>
+        <input type="text" id="attr_value" name="attr_value"><br><br>
+    
+        <input type="submit" value="Update">
+    </form>
+    <input type="submit" value="Add Criminal">
+    <input type="submit" value="Edit Criminal">
+    <input type="submit" value="Delete Criminal">
+    
+    <div>{{ extra_rows }}</div>
+
+    <script>
+    </script>
+</body>
+</html>
