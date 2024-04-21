@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Officer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='format.css') }}">
+</head>
+<body> 
+    <div class="title_wrapper">
+        <strong>New York City Jail Database</strong>
+        <img src="{{ url_for('static', filename='police.png') }}" alt="Police Badge">
+    </div>
+    <div class="title"> 
+        <h1>Add New Officer</h1>
+    </div>
+    <form action="{{ url_for('addOfficer') }}" method="post">
+        <div class="form-container">
+            <div class="form-group">
+                <label for="Officer_ID">Officer ID:</label>
+                <input type="text" id="Officer_ID" name="Officer_ID" maxlength="8">
+            </div>
+            <div class="form-group">
+                <label for="Last">Last Name:</label>
+                <input type="text" id="Last" name="Last" maxlength="15">
+            </div>
+            <div class="form-group">
+                <label for="First">First Name:</label>
+                <input type="text" id="First" name="First" maxlength="10">
+            </div>
+            <div class="form-group">
+                <label for="Precinct">Precinct:</label>
+                <input type="text" id="Precinct" name="Precinct" maxlength="4">
+            </div>
+            <div class="form-group">
+                <label for="Badge">Badge:</label>
+                <input type="text" id="Badge" name="Badge" maxlength="14">
+            </div>
+            <div class="form-group">
+                <label for="Phone">Phone:</label>
+                <input type="text" id="Phone" name="Phone" maxlength="10">
+            </div>
+            <div class="form-group">
+                <label for="Status">Status (A/P):</label>
+                <input type="text" id="Status" name="Status" maxlength="1">
+            </div>
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+    <a href="{{ url_for('home') }}" class="btn">Home</a>
+</body>
+</html>
