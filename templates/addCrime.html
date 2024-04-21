@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Crime</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='format.css') }}">
+</head>
+<body> 
+    <div class="title_wrapper">
+        <strong>New York City Jail Database</strong>
+        <img src="{{ url_for('static', filename='police.png') }}" alt="Police Badge">
+    </div>
+    <div class="title"> 
+        <h1>Add New Crime</h1>
+    </div>
+    <form action="{{ url_for('addCrime') }}" method="post">
+        <div class="form-container">
+            <div class="form-group">
+                <label for="Crime_ID">Crime ID:</label>
+                <input type="text" id="Crime_ID" name="Crime_ID" maxlength="9">
+            </div>
+            <div class="form-group">
+                <label for="Criminal_ID">Criminal ID:</label>
+                <input type="text" id="Criminal_ID" name="Criminal_ID" maxlength="6">
+            </div>
+            <div class="form-group">
+                <label for="Classification">Classification (F/M):</label>
+                <input type="text" id="Classification" name="Classification" maxlength="1">
+            </div>
+            <div class="form-group">
+                <label for="Date_charged">Date Charged:</label>
+                <input type="date" id="Date_charged" name="Date_charged">
+            </div>
+            <div class="form-group">
+                <label for="Status">Status (CL/IA/CA):</label>
+                <input type="text" id="Status" name="Status" maxlength="2">
+            </div>
+            <div class="form-group">
+                <label for="Hearing_date">Hearing Date:</label>
+                <input type="date" id="Hearing_date" name="Hearing_date">
+            </div>
+            <div class="form-group">
+                <label for="Appeal_out_date">Appeal Out Date:</label>
+                <input type="date" id="Appeal_out_date" name="Appeal_out_date">
+            </div>
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+    <a href="{{ url_for('home') }}" class="btn">Home</a>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Probation Officer Data</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='format.css') }}">
+</head>
+<body> 
+    <div class="title_wrapper"> <strong> New York City Jail Database </strong> <img src="{{ url_for('static', filename='police.png') }}" alt="hi"></div>
+    <div class="title"> 
+        <h1>Probation Officer Data</h1>   
+    </div>
+
+    <div class="prob-officer-data">
+        <table>
+            <thead>
+                <tr>
+                    <th>Probation ID</th>
+                    <th>Last Name</th>
+                    <th>First Name</th>
+                    <th>Street</th>
+                    <th>City</th>
+                    <th>State</th>
+                    <th>Zip Code</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for officer in pb %}
+                <tr>
+                    <td>{{ officer.Prob_ID }}</td>
+                    <td>{{ officer.Last }}</td>
+                    <td>{{ officer.First }}</td>
+                    <td>{{ officer.Street }}</td>
+                    <td>{{ officer.City }}</td>
+                    <td>{{ officer.State }}</td>
+                    <td>{{ officer.Zip }}</td>
+                    <td>{{ officer.Phone }}</td>
+                    <td>{{ officer.Email }}</td>
+                    <td>{{ officer.Status }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    <a href="{{ url_for('home') }}" class="btn">Home</a>
+</body>
+</html>
+

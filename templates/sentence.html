@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentences Data</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='format.css') }}">
+</head>
+<body> 
+    <div class="title_wrapper"> <strong> New York City Jail Database </strong> <img src="{{ url_for('static', filename='police.png') }}" alt="hi"></div>
+    <div class="title"> 
+        <h1>Sentences Data</h1>   
+    </div>
+
+    <div class="sentences-data">
+        <table>
+            <thead>
+                <tr>
+                    <th>Sentence ID</th>
+                    <th>Criminal ID</th>
+                    <th>Type</th>
+                    <th>Probation Officer ID</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Violations</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sentence in sentences %}
+                <tr>
+                    <td>{{ sentence.Sentence_ID }}</td>
+                    <td>{{ sentence.CriminalID }}</td>
+                    <td>{{ sentence.Type }}</td>
+                    <td>{{ sentence.Prob_ID }}</td>
+                    <td>{{ sentence.Start_date }}</td>
+                    <td>{{ sentence.End_date }}</td>
+                    <td>{{ sentence.Violations }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    <a href="{{ url_for('home') }}" class="btn">Home</a>
+</body>
+</html>

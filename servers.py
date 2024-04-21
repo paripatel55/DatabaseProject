@@ -17,34 +17,35 @@ def get_db_connection():
                            password=app.config['PASSWORD'],
                            db=app.config['MY_SQLDB'])
 
-def runstatement(statement):
+def runstatement(statement, fetch_results=True):
     conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute(statement)
-    results = cursor.fetchall()
-    df = pd.DataFrame()  
-    if results and cursor.description: 
-        column_names = [desc[0] for desc in cursor.description]
-        df = pd.DataFrame(results, columns=column_names) 
-    cursor.close()
-    conn.close() 
-    return df
+    if fetch_results: 
+        results = cursor.fetchall()
+        df = pd.DataFrame()  
+        if results and cursor.description: 
+            column_names = [desc[0] for desc in cursor.description]
+            df = pd.DataFrame(results, columns=column_names) 
+        cursor.close()
+        conn.close() 
+        return df
+    else:  
+        cursor.close()
+        conn.close() 
+        return pd.DataFrame()  # Return an empty DataFrame
+    
 
-def print_criminal_table():
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM criminal")
-    results = cursor.fetchall()
+def is_criminal_exists(criminal_id):
+    sql_query = f"SELECT Criminal_ID FROM Criminal WHERE Criminal_ID = '{criminal_id}'"
+    result = runstatement(sql_query, fetch_results=True)
+    return not result.empty
 
-    if results:
-        print("Contents of the 'criminal' table:")
-        for row in results:
-            print(row)
-    else:
-        print("The 'criminal' table is empty.")
+def is_existing_crime(crime_id):
+    sql_query = f"SELECT * FROM Crime WHERE Crime_ID = {crime_id}"
+    result = runstatement(sql_query)
+    return not result.empty
 
-    cursor.close()
-    conn.close()
 
 static_bp = Blueprint('static', __name__, static_folder='static')
 
@@ -73,21 +74,14 @@ def addCriminal():
 
         # Check if C_ID is not empty
         if C_ID:
-            # Construct SQL INSERT statement using an f-string
-            sql = f"INSERT INTO Criminal (Criminal_ID, Last, First, Street, City, State, Zip, Phone, V_status, P_status) VALUES ('{C_ID}', '{last_name}', '{first_name}', '{street}', '{city}', '{state}', '{zipcode}', '{phone}', '{offender_status}', '{probation_status}')"
-
-            # Connect to the database and execute INSERT statement
-            conn = get_db_connection()
-            cursor = conn.cursor()
-            cursor.execute(sql)
-            conn.commit()
-
-            # Close cursor and connection
-            cursor.close()
-            conn.close()
-
-            # display all the criminals including the one just added 
-            return render_template('addCriminal.html')
+            if not (is_criminal_exists(C_ID)):
+                # Construct SQL INSERT statement using an f-string
+                sql = f"INSERT INTO Criminal (Criminal_ID, Last, First, Street, City, State, Zip, Phone, V_status, P_status) VALUES ('{C_ID}', '{last_name}', '{first_name}', '{street}', '{city}', '{state}', '{zipcode}', '{phone}', '{offender_status}', '{probation_status}')"
+                runstatement(sql, fetch_results=False)
+                # display all the criminals including the one just added 
+                return redirect('/criminal')
+            else: 
+                return "Error: Criminal ID already exists"
         else:
             # Handle case where C_ID is empty
             return "Error: Criminal ID cannot be empty"
@@ -95,15 +89,107 @@ def addCriminal():
         # Handle GET request
         return render_template('addCriminal.html')
 
-@app.route('/view_criminals')
-def viewCriminals(): 
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM Criminal")
-    results = cursor.fetchall()
-    cursor.close()
-    conn.close()
-    return render_template('view_criminals.html', criminals=results)
+# Route to handle adding a new crime
+@app.route('/addCrime', methods=["GET", "POST"])
+def addCrime():
+   
+    if request.method == "POST":
+       
+        crime_id = request.form.get("Crime_ID")
+        criminal_id = request.form.get("Criminal_ID")
+        classification = request.form.get("Classification")
+        date_charged = request.form.get("Date_charged")
+        status = request.form.get("Status")
+        hearing_date = request.form.get("Hearing_date")
+        appeal_out_date = request.form.get("Appeal_out_date")
+        # check if criminal Id exists
+        if is_criminal_exists(criminal_id):
+           
+            sql = f"INSERT INTO Crime (Crime_ID, Criminal_ID, Classification, Date_charged, Status, Hearing_date, Appeal_out_date) VALUES ('{crime_id}', '{criminal_id}', '{classification}', '{date_charged}', '{status}', '{hearing_date}', '{appeal_out_date}')"
+            runstatement(sql, fetch_results=False)
+           
+            return redirect('/crime')
+        else: 
+             return "Error: Criminal ID does not exist"
+    else:
+        # Handle GET request
+        return render_template('addCrime.html')
+
+    
+@app.route('/criminal', methods = ["GET"])
+def criminal(): 
+     # Execute raw SQL query to fetch all records from the Criminal table
+    sql_query = "SELECT * FROM Criminal"
+    result = runstatement(sql_query)
+
+    # Convert the result to a list of dictionaries
+    criminals = [dict(row) for _, row in result.iterrows()]
+
+    return render_template('criminal.html', criminals=criminals)
+
+@app.route('/crimecharge', methods = ["GET"])
+def cc(): 
+    
+    sql_query = "SELECT * FROM Crime_charges"
+    result = runstatement(sql_query)
+
+    ccharges = [dict(row) for _, row in result.iterrows()]
+
+    return render_template('crimecharge.html', ccharges=ccharges)
+
+@app.route('/crime', methods = ["GET"])
+def crime(): 
+   
+    sql_query = "SELECT * FROM Crime"
+    result = runstatement(sql_query)
+
+    crimes = [dict(row) for _, row in result.iterrows()]
+
+    return render_template('crime.html', crimes=crimes)
+
+@app.route('/pO', methods = ["GET"])
+def pbO(): 
+  
+    sql_query = "SELECT * FROM Prob_officer"
+    result = runstatement(sql_query)
+
+    pb = [dict(row) for _, row in result.iterrows()]
+
+    return render_template('pO.html', pb=pb)
+
+@app.route('/appeal', methods = ["GET"])
+def appeal(): 
+
+    sql_query = "SELECT * FROM Appeals"
+    result = runstatement(sql_query)
+
+    appeals = [dict(row) for _, row in result.iterrows()]
+
+    return render_template('appeal.html', appeals=appeals)
+
+@app.route('/officer', methods = ["GET"])
+def officer(): 
+
+    sql_query = "SELECT * FROM Officer"
+    result = runstatement(sql_query)
+
+    officers = [dict(row) for _, row in result.iterrows()]
+
+    return render_template('officer.html', officers=officers)
+
+@app.route('/sentence', methods = ["GET"])
+def sentence(): 
+  
+    sql_query = "SELECT * FROM Sentences"
+    result = runstatement(sql_query)
+
+    sentences = [dict(row) for _, row in result.iterrows()]
+
+    return render_template('sentence.html', sentences=sentences)
+
+@app.route('/home')
+def home():
+     return render_template('home.html')
 
 @app.route('/')
 def helloworld():
@@ -112,4 +198,3 @@ def helloworld():
 if __name__ == '__main__':
     app.run(debug=True)
 
-print_criminal_table()

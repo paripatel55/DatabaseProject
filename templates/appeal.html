@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appeal Data</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='format.css') }}">
+</head>
+<body> 
+    <div class="title_wrapper"> <strong> New York City Jail Database </strong> <img src="{{ url_for('static', filename='police.png') }}" alt="hi"></div>
+    <div class="title"> 
+        <h1>Appeal Data</h1>   
+    </div>
+
+    <div class="appeal-data">
+        <table>
+            <thead>
+                <tr>
+                    <th>Appeal ID</th>
+                    <th>Crime ID</th>
+                    <th>Filing Date</th>
+                    <th>Hearing Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for appeal in appeals %}
+                <tr>
+                    <td>{{ appeal.Appeal_ID }}</td>
+                    <td>{{ appeal.Crime_ID }}</td>
+                    <td>{{ appeal.Filing_date }}</td>
+                    <td>{{ appeal.Hearing_date }}</td>
+                    <td>{{ appeal.Status }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    <a href="{{ url_for('home') }}" class="btn">Home</a>
+</body>
+</html>

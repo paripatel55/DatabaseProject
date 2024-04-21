@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crime Data</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='format.css') }}">
+</head>
+<body> 
+    <div class="title_wrapper"> <strong> New York City Jail Database </strong> <img src="{{ url_for('static', filename='police.png') }}" alt="hi"></div>
+    <div class="title"> 
+        <h1>Crime Data</h1>   
+    </div>
+
+    <div class="crime-data">
+        <table>
+            <thead>
+                <tr>
+                    <th>Crime ID</th>
+                    <th>Criminal ID</th>
+                    <th>Classification</th>
+                    <th>Date Charged</th>
+                    <th>Status</th>
+                    <th>Hearing Date</th>
+                    <th>Appeal Out Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for crime in crimes %}
+                <tr>
+                    <td>{{ crime.Crime_ID }}</td>
+                    <td>{{ crime.Criminal_ID }}</td>
+                    <td>{{ crime.Classification }}</td>
+                    <td>{{ crime.Date_charged }}</td>
+                    <td>{{ crime.Status }}</td>
+                    <td>{{ crime.Hearing_date }}</td>
+                    <td>{{ crime.Appeal_out_date }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    <a href="{{ url_for('addCrime') }}" class="btn">Add Crime</a>
+    <a href="{{ url_for('home') }}" class="btn">Home</a>
+</body>
+</html>
