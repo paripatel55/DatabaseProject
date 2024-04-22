@@ -420,7 +420,7 @@ def addCriminal():
                 return redirect('/criminal')
             else: 
                 mysql.connection.commit()
-                cursor.close()
+                cursor.close()   
                 return "Error: Criminal ID already exists"
         else:
             # Handle case where C_ID is empty
