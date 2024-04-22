@@ -27,7 +27,8 @@ def login_pressed():
     # sql statement to check if user and password match up
     authenticate_login = f"SELECT user_type, id from users WHERE username='{username}' AND password='{simple_hash(password)}'"
     df_output = runstatement(authenticate_login, mysql) # get output as dataframe
-    if (not df_output.empty): # check if nothing was returned(authentication failed)
+    if (not df_output.empty ): # check if nothing was returned(authentication failed)
+
         user = df_output.loc[0][0] # get the user type
         user_id = df_output.loc[0][1]
         session['user_id'] = user_id
@@ -45,15 +46,15 @@ def signup_pressed():
     # get info from front end
     username = request.form.get("username")
     password = request.form.get("password")   
-    criminal_select = request.form.get("criminal_select")
-    user_type = "Officer" if criminal_select == "None" else "Criminal"
+    select = request.form.get("select")
+    user_type = "Officer" if select == "Officer" else "Criminal"
     id = request.form.get("ID")
     # based on which type of user they are our search will change
     token = "criminal_id" if user_type != "Officer" else "officer_id"
     table = "criminal" if user_type != "Officer" else "officer"
-
     # statement to check if they are already in the database
     check_existance_in_database = f"SELECT {token} from {table} WHERE {token}={id}"
+    print(check_existance_in_database)
     # statement to check if they already have an accoount
     check_existance_in_user_table = f"SELECT id from users WHERE id={id}"
     cursor = mysql.connection.cursor()
