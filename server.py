@@ -46,7 +46,7 @@ def signup_pressed():
     username = request.form.get("username")
     password = request.form.get("password")   
     criminal_select = request.form.get("criminal_select")
-    user_type = "Officer" if criminal_select is None else "Criminal"
+    user_type = "Officer" if criminal_select == "None" else "Criminal"
     id = request.form.get("ID")
     # based on which type of user they are our search will change
     token = "criminal_id" if user_type != "Officer" else "officer_id"
