@@ -4,6 +4,7 @@ from helpers import runstatement, simple_hash, return_table, make_search_stateme
 from markupsafe import Markup
 
 app = Flask(__name__)
+
 app.config["MYSQL_HOST"] = "localhost"
 app.config["MYSQL_USER"] = "root"
 app.config["MYSQL_PASSWORD"] = ""
@@ -767,7 +768,7 @@ def alias():
 
 if __name__ == '__main__':
     app.secret_key = 'eh'
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0", port=8000)
 
 
 
