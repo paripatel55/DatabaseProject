@@ -3,6 +3,7 @@ import numpy as np
 from flask import request
 def runstatement(statement, mysql):
     cursor = mysql.connection.cursor()
+    cursor.execute("START TRANSACTION;")
     cursor.execute(statement)
     results = cursor.fetchall()
     mysql.connection.commit()

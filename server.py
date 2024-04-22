@@ -58,6 +58,7 @@ def signup_pressed():
     # statement to check if they already have an accoount
     check_existance_in_user_table = f"SELECT id from users WHERE id={id}"
     cursor = mysql.connection.cursor()
+    cursor.execute("START TRANSACTION;")
     if (not exec(check_existance_in_database, cursor).empty 
         and exec(check_existance_in_user_table, cursor).empty):
         # if they are in the db and are not already registered, add them to the user table
@@ -89,6 +90,7 @@ def home():
                 return render_template("Criminal/criminal_home.html", message = "lmao what?")
             get_crime_charge_id = f"Select charge_id from crime_charges WHERE crime_id IN (SELECT crime.crime_id from crime, criminal WHERE crime.Criminal_ID = {user_id})"
             cursor = mysql.connection.cursor()
+            cursor.execute("START TRANSACTION;")
             crime_charge_id = exec(get_crime_charge_id, cursor).loc[0][0]
             pay_fine_statement = f"Select payFine({amount}, {crime_charge_id})"
             df_output = exec(pay_fine_statement, cursor)
@@ -261,6 +263,7 @@ def Delete_Criminal():
     if (request.method == 'POST'):
         id = request.form.get("ID")
         cursor = mysql.connection.cursor()
+        cursor.execute("START TRANSACTION;")
         exec("Start TRANSACTION;", cursor)
         if (not exec(f"Select * from users WHERE id = {id}", cursor).empty):
             exec(f"DELTE FROM users WHERE id={id}", cursor)
@@ -403,6 +406,7 @@ def addCriminal():
         # Check if C_ID is not empty
         if C_ID:
             cursor = mysql.connection.cursor()
+            cursor.execute("START TRANSACTION;")
             if (exec(f"SELECT * FROM Criminal WHERE Criminal_ID = '{C_ID}'", cursor).empty):
                 # Construct SQL INSERT statement using an f-string
                 sql = f"INSERT INTO Criminal (Criminal_ID, Last, First, Street, City, State, Zip, Phone, V_status, P_status) VALUES ('{C_ID}', '{last_name}', '{first_name}', '{street}', '{city}', '{state}', '{zipcode}', '{phone}', '{offender_status}', '{probation_status}')"
@@ -440,6 +444,7 @@ def addCrime():
         appeal_out_date = request.form.get("Appeal_out_date")
         # check if criminal Id exists
         cursor = mysql.connection.cursor()
+        cursor.execute("START TRANSACTION;")
         if exec(f"SELECT Criminal_ID FROM Criminal WHERE Criminal_ID = '{criminal_id}'", cursor).empty:
            
             sql = f"INSERT INTO Crime (Crime_ID, Criminal_ID, Classification, Date_charged, Status, Hearing_date, Appeal_out_date) VALUES ('{crime_id}', '{criminal_id}', '{classification}', '{date_charged}', '{status}', '{hearing_date}', '{appeal_out_date}')"
@@ -468,7 +473,7 @@ def addOfficer():
         phone = request.form.get("Phone")
         status = request.form.get("Status")
         cursor = mysql.connection.cursor()
-        
+        cursor.execute("START TRANSACTION;")
         if not exec(f"SELECT * FROM Officer WHERE Officer_ID = '{officer_id}'",cursor).empty:
             sql = f"INSERT INTO Officer (Officer_ID, Last, First, Precinct, Badge, Phone, Status) VALUES ('{officer_id}', '{last_name}', '{first_name}', '{precinct}', '{badge}', '{phone}', '{status}')"
             exec(sql, cursor)
@@ -559,7 +564,7 @@ def Update_Alias_Pressed():
     attr_value = request.form.get("attr_value")
     attr_selection = request.form.get("attr_selection")
     cursor = mysql.connection.cursor()
-
+    cursor.execute("START TRANSACTION;")
     if attr_selection == "Criminal_ID":
         if not (exec(f"SELECT * FROM crime WHERE {attr_selection} = {attr_value}", cursor).empty):
             return Update_Alias()
@@ -585,6 +590,8 @@ def Update_Appeals_Pressed():
     attr_value_date = request.form.get("attr_value_date")
     attr_selection_date = request.form.get("attr_selection_date")
     cursor = mysql.connection.cursor()
+    cursor.execute("START TRANSACTION;")
+
     if attr_selection == "Crime_ID":
         if not (exec(f"SELECT * FROM crime WHERE {attr_selection} = {attr_value}", cursor).empty):
             return Update_Appeals()
@@ -615,6 +622,7 @@ def Update_Crime_Charges_Pressed():
     attr_value_date = request.form.get("attr_value_date")
     attr_selection_date = request.form.get("attr_selection_date")
     cursor = mysql.connection.cursor()
+    cursor.execute("START TRANSACTION;")
     
     if attr_selection == "Crime_ID":
         if not (exec(f"SELECT * FROM crime WHERE {attr_selection} = {attr_value}", cursor).empty):
