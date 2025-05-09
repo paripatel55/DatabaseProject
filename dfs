@@ -1,0 +1,39 @@
+[33mcommit e6d001136cda6df02211032d3610260d3ae81a4d[m[33m ([m[1;36mHEAD -> [m[1;32mIhateCriminals[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/IhateCriminals[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: nilayd-lab <nilayd@nycstudents.net>
+Date:   Sun Apr 14 16:09:58 2024 -0400
+
+    added some login architecture
+
+[33mcommit c7d3bb0ffd46605463ca32e43abb77c548c5dd86[m
+Merge: 79512e9 5d18a75
+Author: paripatel55 <84485979+paripatel55@users.noreply.github.com>
+Date:   Mon Apr 1 19:29:54 2024 -0400
+
+    Merge pull request #1 from paripatel55/Pari
+    
+    test
+
+[33mcommit 5d18a75216e1c6ee09cda7105b5864f4043ec18a[m
+Author: Pari Patel <paripatel1515@gmail.com>
+Date:   Mon Apr 1 19:27:18 2024 -0400
+
+    test
+
+[33mcommit 79512e9d35832fcb45efe936ff7c0a2c368af745[m[33m ([m[1;31morigin/pari[m[33m)[m
+Merge: 312af2d 1aa7de2
+Author: Pari Patel <paripatel1515@gmail.com>
+Date:   Mon Apr 1 17:51:42 2024 -0400
+
+    Merge branch 'main' of github.com:paripatel55/DatabaseProject
+
+[33mcommit 1aa7de25fd72b8fed1cc0d9470b23a602c546fd6[m
+Author: paripatel55 <84485979+paripatel55@users.noreply.github.com>
+Date:   Sat Mar 30 15:12:12 2024 -0400
+
+    Initial commit
+
+[33mcommit 312af2d13895affe8b4476fc1f5ba80672dd6249[m
+Author: Pari Patel <paripatel1515@gmail.com>
+Date:   Sat Mar 30 14:59:20 2024 -0400
+
+    first commit

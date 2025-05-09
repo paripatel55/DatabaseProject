@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <script>
+            window.addEventListener('scroll', () => {
+              const element = document.querySelector('.animate-me');
+              const position = element.getBoundingClientRect();
+        
+              if (position.top < window.innerHeight) {
+                element.classList.add('fade-in');
+              }
+            });
+        </script>
+
+        <div class = "title_wrapper"> <strong> New York City Jail Database </strong> </div>
+        <div class="title"> 
+            <h1>Home</h1>
+        </div>
+
+        <!-- main part -->
+        <div class="button-container"> 
+            <div class="button-row">
+                <a href="{{ url_for('criminal') }}" class="btn"> <button>Criminals</button> </a>
+                <a href="{{ url_for('crime') }}" class="btn"> <button>Crimes</button> </a>
+                <a href="{{ url_for('sentence') }}" class="btn"> <button>Sentences</button> </a>
+            </div>
+            <div class="button-row2">
+                <a href="{{ url_for('pbO') }}" class="btn"> <button>Probation Officers</button> </a>
+                <a href="{{ url_for('crimecharge') }}" class="btn"> <button>Crime Charges</button> </a>
+                <a href="{{ url_for('officer') }}" class="btn"> <button>Officers</button> </a>
+            </div>
+            <div class="button-row3">
+                <a href="{{ url_for('appeal') }}" class="btn"> <button>Appeals</button> </a>
+                <a href="{{ url_for('crime_code') }}" class="btn"> <button>crime_code</button> </a>
+                <a href="{{ url_for('alias') }}" class="btn"> <button>alias</button> </a>
+
+            </div>
+
+        </div>
+    </body>
+</html>

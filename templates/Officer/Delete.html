@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criminal_Search</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='search.css') }}">
+
+</head>
+<body>
+    <div class = "title_wrapper"><span class = "title">New York City Jail Database</span><img src="{{ url_for('static', filename='Patch_of_the_New_York_City_Police_Department.svg.png') }}" alt=""></div>
+    <div class="sub_title">Delete {{ table }}</div>
+    <br>
+    <form action="{{ url_for(url) }}" method="post">
+    <label for="ID">{{ attr }}</label>
+    <input type="text" id="ID" name="ID" max="6"><br><br>
+    <br>
+    <input type="submit" value="Delete">
+    </form>
+    
+
+
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criminal_Search</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='search.css') }}">
+</head>
+
+<body>
+    <h1>New York City Jail Database</h1>
+    <form action="{{ url_for('Search_Sentences')}}" method="post" onchange="updateMaxLength()">
+        <label for="Start_Date">Start_Date</label>
+        <input type="date" id="Start_Date" name="Start_Date"><br><br>
+
+        <label for="End_date">Last Name:</label>
+        <input type="date" id="End_date" name="End_date"><br><br>
+
+
+        <label for="items">Filter Attribute</label>
+        <select id="items" name="items">
+            <option value="None">None</option>
+            <option value="Criminal_ID" maxlength="6">Criminal_ID</option>
+            <option value="Type" maxlength="1">Type</option>
+            <option value="Prob_ID" maxlength="5">Prob_ID</option>
+            <option value="Violations" maxlength="3">Violations</option>
+        </select>
+
+        <label for="attr_value">Attribute Value</label>
+        <input type="text" id="attr_value" name="attr_value"><br><br>
+
+        <input type="submit" value="Search">
+    </form>
+    <br>
+    <hr>
+    <br>
+
+    <br>
+    <hr>
+    <br>
+    <div>{{ extra_rows }}</div>
+
+    <script>
+        function updateMaxLength() {
+            var selectElement = document.getElementById("items");
+            var inputElement = document.getElementById("attr_value");
+            var selectedOption = selectElement.options[selectElement.selectedIndex];
+            var maxLength = selectedOption.getAttribute("maxlength");
+            inputElement.maxLength = maxLength;
+        }
+    </script>
+</body>
+
+</html>

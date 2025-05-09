@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update_Alias</title>
+</head>
+<h1> New York City Jail Database <h1></h1>
+<body>
+    
+    <form action="{{ url_for('Update_Alias_Pressed') }}" method="post" onchange="updateMaxLength()">
+        <label for="Alias_ID">Alias ID:</label>
+        <input type="text" id="Alias_ID" name="Alias_ID" maxlength="10"><br><br>
+        <label for="attr_selection">Select Attribute:</label>
+        <select id="attr_selection" name="attr_selection">
+            <option value="Alias" maxlength="30">Alias</option>
+            <option value="Criminal_ID" maxlength="10">Criminal ID</option>
+        </select>
+
+        <label for="attr_value">Attribute Value</label>
+        <input type="text" id="attr_value" name="attr_value"><br><br>
+    
+        <input type="submit" value="Update">
+    </form>
+ 
+    
+    <div>{{ extra_rows }}</div>
+
+    <script>
+    </script>
+</body>
+</html>

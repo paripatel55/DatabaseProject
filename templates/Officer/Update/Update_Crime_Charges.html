@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update_Crime_Charges</title>
+</head>
+<h1> New York City Jail Database <h1></h1>
+<body>
+    <form action="{{ url_for('Update_Crime_Charges_Pressed') }}" method="post" onchange="updateMaxLength()">
+        <label for="Charges_ID">Crime Charge ID:</label>
+        <input type="text" id="Charges_ID" name="Charge_ID" maxlength="10"><br><br>
+        <label for="attr_selection">Select Attribute:</label>
+        <select id="attr_selection" name="attr_selection">
+            <option value="None" maxlength="0"> </option>
+            <option value="Crime_ID" maxlength="10">Crime ID</option>
+            <option value="Crime_code" maxlength="10">Crime Code</option>
+            <option value="Charge_status" maxlength="10">Charge Status</option>
+            <option value="Fine_amount" maxlength="10">Fine Amount</option>
+            <option value="Court_fee" maxlength="10">Court Fee</option>
+            <option value="Amount_paid" maxlength="10">Amount Paid</option>
+        </select>
+
+        <label for="attr_value">Attribute Value</label>
+        <input type="text" id="attr_value" name="attr_value"><br><br>
+        
+        <label for="attr_selection_date">Select Attribute (Date):</label>
+        <select id="attr_selection_date" name="attr_selection_date">
+            <option value="None" maxlength="0"> </option>
+            <option value="Pay_due_date" maxlength="10">Pay Due Date</option>
+        </select>
+
+        <label for="attr_value_date">Date</label>
+        <input type="date" id="attr_value_date" name="attr_value_date"><br><br>
+
+        <input type="submit" value="Update">
+    </form>
+
+
+    <script>
+    </script>
+</body>
+</html>

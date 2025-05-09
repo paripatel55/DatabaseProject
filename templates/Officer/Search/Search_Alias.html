@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Officer Search</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='search.css') }}">
+
+</head>
+<body>
+    <div class = "title_wrapper"><span class = "title">New York City Jail Database</span><img src="{{ url_for('static', filename='Patch_of_the_New_York_City_Police_Department.svg.png') }}" alt=""></div>
+    
+    <div class = "sub_title">Criminals</div>
+    <form action="{{ url_for('Search_Alias') }}" method="post" onchange="updateMaxLength()">
+        <div class = "filter_inputs">
+            <div class = "main_filter">
+                <div class = "section_title">Filter by First Letter</div>
+                <label for="First Letter(s)">First Letter(s)</label>
+                <input type="text" id="First Letter(s)" name="First Letter(s)" maxlength="20"><br><br>
+            </div>
+            <div class = "extra_filter">
+                <div class = "section_title">Filter by Other Attributes</div>
+                <label for="items">Filter Attribute</label>
+                <select id="items" name="items">
+                    <option value="None">None</option>
+                    <option value="Criminal_ID" maxlength="6">Criminal_ID</option>
+                </select>
+                <div>
+                <label for="attr_value">Attribute Value</label>
+                    <input type="text" id="attr_value" name="attr_value">
+                </div>
+            </div>
+        </div>
+        <input type="submit" value="Search">
+    </form>
+    <br>
+    <hr>
+    <br>
+    <div class = "btns">
+       
+    </div>
+    <br>
+    <hr>
+    <br>
+
+    <div>{{ extra_rows }}</div>
+
+    <script>
+        function updateMaxLength() {
+            var selectElement = document.getElementById("items");
+            var inputElement = document.getElementById("attr_value");
+            var selectedOption = selectElement.options[selectElement.selectedIndex];
+            var maxLength = selectedOption.getAttribute("maxlength");
+            inputElement.maxLength = maxLength;
+        }
+    </script>
+</body>
+</html>
